@@ -17,7 +17,7 @@ data class User(
     val lastname: String,
 
     @Column(name = "group_id")
-    val groupId: Int,
+    val groupId: String,
 
     @Column(name = "email")
     val email: String,

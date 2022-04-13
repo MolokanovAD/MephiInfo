@@ -1,5 +1,4 @@
 package ru.mephi.info.controller
-import com.sun.org.apache.xml.internal.security.algorithms.SignatureAlgorithm
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import ru.mephi.info.dto.LoginDto
@@ -9,13 +8,15 @@ import java.util.*
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
 import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.SignatureAlgorithm
+
 @RestController
 @RequestMapping("api")
 class AuthController(private val userService: UserService) {
 
     @PostMapping("register")
-    fun register(@RequestBody body: User): ResponseEntity<User> {
-        val user = User(0,body.name,body.lastname,body.login)
+    fun register(@RequestBody body: User): ResponseEntity<Any> {
+        val user = User(0,body.name,body.lastname, body.groupId, body.email, body.password, body.login)
 
         return ResponseEntity.ok(this.userService.createUser(user))
     }
@@ -53,7 +54,7 @@ class AuthController(private val userService: UserService) {
 
             val body = Jwts.parser().setSigningKey("secret").parseClaimsJws(jwt).body
 
-            return ResponseEntity.ok(this.userService.getById(body.issuer.toInt()))
+            return ResponseEntity.ok(this.userService.getUser(body.issuer.toInt()))
         } catch (e: Exception) {
             return ResponseEntity.status(401).body("unauthenticated")
         }
