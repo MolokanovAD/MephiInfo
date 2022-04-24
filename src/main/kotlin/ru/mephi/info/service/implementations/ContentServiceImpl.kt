@@ -13,7 +13,7 @@ class ContentServiceImpl(
 ): ContentService {
     override fun getContentById(id: Int): Content = contentDao.findById(id).orElseThrow()
 
-    override fun getContentsByTags(tags: Set<Tag>, pageIndex: Int): List<Content> = contentDao.findContentByTagsContains(tags, PageRequest.of(pageIndex, 5))
+    //override fun getContentsByTags(tags: Set<Tag>, pageIndex: Int): List<Content> = contentDao.findContentByTagsContains(tags, PageRequest.of(pageIndex, 5))
 
     override fun createContent(content: Content) {
         val newContent = Content(content.id,content.type,content.date,content.text,content.title,content.author)

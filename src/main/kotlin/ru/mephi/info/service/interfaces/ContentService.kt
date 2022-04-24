@@ -9,7 +9,7 @@ import ru.mephi.info.model.Tag
 interface ContentService {
     fun getContentById(id: Int): Content
 
-    fun getContentsByTags(tags: Set<Tag>, pageIndex: Int) : List<Content>
+    //fun getContentsByTags(tags: Set<Tag>, pageIndex: Int) : List<Content>
 
     fun createContent(content: Content)
 

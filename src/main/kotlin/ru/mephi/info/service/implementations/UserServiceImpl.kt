@@ -15,23 +15,26 @@ class UserServiceImpl(
 
     override fun getAllUsers(): List<User> = userDao.findAll().toList()
 
+    override fun findByLogin(login: String) = userDao.findByLogin(login)
+
     override fun createUser(user: User) {
-        val newUser = User(user.id,user.name,user.lastname,user.groupId,user.email,user.password,user.login)
+        val newUser = User(user.login,user.email,user.password,)
+//        val newUser = User()
+//        newUser.login = user.login
+//        newUser.password = user.password
+//        newUser.email = user.email
         userDao.save(newUser)
     }
 
     override fun updateUser(id: Int, user: User) {
         userDao.findById(id).ifPresent {
-            val updatedUser = it.copy(
-                name = user.name,
-                lastname = user.lastname,
-                groupId = user.groupId,
-                email = user.email,
-                password = user.password,
-                login = user.login,
-                fav_tags = user.fav_tags
-            )
-            userDao.save(updatedUser)
+//            val updatedUser = it.copy(
+//                email = user.email,
+//                password = user.password,
+//                login = user.login,
+//                fav_tags = user.fav_tags
+//            )
+            userDao.save(user)
         }
     }
 

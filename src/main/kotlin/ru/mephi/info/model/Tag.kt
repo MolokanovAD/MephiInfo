@@ -13,8 +13,8 @@ data class Tag(
     @Column(name = "name")
     val name: String,
 
-    @ManyToMany(mappedBy = "fav_tags")
-    var users: Set<User> = emptySet(),
+//    @ManyToMany(mappedBy = "fav_tags")
+//    var users: Set<User> = emptySet(),
 
     @ManyToMany
     @JoinTable(

@@ -10,8 +10,8 @@ import ru.mephi.info.service.interfaces.ContentService
 class ContentController(
     private val contentService: ContentService
 ) {
-    @GetMapping
-    fun getPage(@RequestBody tags: Set<Tag>, @RequestParam("page") pageIndex: Int):List<Content> = contentService.getContentsByTags(tags, pageIndex)
+    //@GetMapping
+    //fun getPage(@RequestBody tags: Set<Tag>, @RequestParam("page") pageIndex: Int):List<Content> = contentService.getContentsByTags(tags, pageIndex)
 
     @GetMapping("/{id}")
     fun getById(@PathVariable id:Int): Content = contentService.getContentById(id)

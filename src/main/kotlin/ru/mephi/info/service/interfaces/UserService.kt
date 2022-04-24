@@ -5,7 +5,9 @@ import ru.mephi.info.model.User
 interface UserService {
     fun getUser(id: Int): User
 
-    fun findByEmail(email: String): User?
+    fun findByEmail(email: String) : User?
+
+    fun findByLogin(login: String) : User
 
     fun getAllUsers() : List<User>
 
