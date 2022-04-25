@@ -16,6 +16,9 @@ class ContentController(
     @GetMapping("/{id}")
     fun getById(@PathVariable id:Int): Content = contentService.getContentById(id)
 
+    @GetMapping("/by_tag/{id}")
+    fun findContentsByTagsId(@PathVariable id: Int) = contentService.findContentByTagsId(id)
+
     @PostMapping
     fun create(@RequestBody content: Content) = contentService.createContent(content)
 

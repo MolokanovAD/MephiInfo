@@ -9,4 +9,5 @@ interface ContentDao: CrudRepository<Content, Int>{
     //fun findContentByTagsContains(tag: Set<Tag>, pageable: Pageable) : List<Content>
 
     //fun findContentByTagsWithin(tags: Set<Tag>, pageable: Pageable) : List<Content>
+    fun findContentsByTagsId(tags_id: Int): List<Content>
 }

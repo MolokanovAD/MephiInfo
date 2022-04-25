@@ -19,10 +19,6 @@ class UserServiceImpl(
 
     override fun createUser(user: User) {
         val newUser = User(user.login,user.email,user.password,)
-//        val newUser = User()
-//        newUser.login = user.login
-//        newUser.password = user.password
-//        newUser.email = user.email
         userDao.save(newUser)
     }
 

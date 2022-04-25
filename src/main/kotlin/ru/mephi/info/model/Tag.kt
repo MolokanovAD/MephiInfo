@@ -1,5 +1,4 @@
 package ru.mephi.info.model
-
 import javax.persistence.*
 
 @Entity
@@ -13,14 +12,6 @@ data class Tag(
     @Column(name = "name")
     val name: String,
 
-//    @ManyToMany(mappedBy = "fav_tags")
-//    var users: Set<User> = emptySet(),
-
-    @ManyToMany
-    @JoinTable(
-        name = "tag_content",
-        joinColumns = [JoinColumn(name = "tag_id", referencedColumnName = "id") ],
-        inverseJoinColumns = [JoinColumn(name = "content_id",referencedColumnName = "id")]
-    )
-    val posts: Set<Content> = emptySet()
+//    @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST, CascadeType.MERGE],mappedBy = "tags")
+//    val posts: Set<Content> = emptySet()
 )

@@ -11,6 +11,8 @@ interface ContentService {
 
     //fun getContentsByTags(tags: Set<Tag>, pageIndex: Int) : List<Content>
 
+    fun findContentByTagsId(tagId: Int): List<Content>
+
     fun createContent(content: Content)
 
     fun updateContent(id: Int, content: Content)

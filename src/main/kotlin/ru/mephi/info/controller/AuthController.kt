@@ -24,11 +24,9 @@ class AuthController(private val userService: UserService, private val jwtTokenU
     @PostMapping("register")
     fun register(@RequestBody body: RegisterDto): ResponseEntity<Any> {
         val pass = passwordEncoder.encode(body.password)
+        println("PASS $pass")
         val user = User(body.login,body.email,pass)
-//        val user = User()
-//        user.login = body.login
-//        user.email = body.email
-//        user.password = body.password
+        println("aftr ${user.password}")
         userService.createUser(user)
         return ResponseEntity.ok("Success")
     }
@@ -37,6 +35,8 @@ class AuthController(private val userService: UserService, private val jwtTokenU
     fun login(@RequestBody body: LoginDto, response: HttpServletResponse): ResponseEntity<Any> {
         val user = userService.findByEmail(body.email)
             ?: return ResponseEntity.badRequest().body("user not found!")
+        println("From BD ${user.password}")
+        println("Request body ${body.password}")
         if (passwordEncoder.matches(body.password,user.password)) {
             return ResponseEntity.badRequest().body("invalid password!")
         }
