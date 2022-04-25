@@ -10,17 +10,17 @@ class TagController(
     private val tagService: TagService
 ) {
     @GetMapping
-    fun getAllTags():List<Tag> = tagService.getAllTags()
+    fun findAll():List<Tag> = tagService.findAll()
 
     @GetMapping("/{id}")
-    fun getTag(@PathVariable id:Int): Tag = tagService.getTag(id)
+    fun findById(@PathVariable id:Int): Tag = tagService.findById(id)
 
     @PostMapping
-    fun createTag(@RequestBody Tag: Tag) = tagService.createTag(Tag)
+    fun save(@RequestBody Tag: Tag) = tagService.save(Tag)
 
     @PutMapping("/{id}")
-    fun updateTag(@PathVariable id: Int, @RequestBody Tag: Tag) = tagService.updateTag(id,Tag)
+    fun updateById(@PathVariable id: Int, @RequestBody Tag: Tag) = tagService.updateById(id,Tag)
 
     @DeleteMapping("/{id}")
-    fun deleteTag(@PathVariable id: Int) = tagService.deleteTag(id)
+    fun deleteById(@PathVariable id: Int) = tagService.deleteById(id)
 }

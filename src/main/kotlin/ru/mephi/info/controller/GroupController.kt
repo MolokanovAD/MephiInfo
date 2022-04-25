@@ -10,17 +10,17 @@ class GroupController(
     private val GroupService: GroupService
 ) {
     @GetMapping
-    fun getAllGroups():List<Group> = GroupService.getAllGroups()
+    fun findAll():List<Group> = GroupService.findAll()
 
     @GetMapping("/{id}")
-    fun getGroup(@PathVariable id:Int): Group = GroupService.getGroup(id)
+    fun findById(@PathVariable id:Int): Group = GroupService.findById(id)
 
     @PostMapping
-    fun createGroup(@RequestBody Group: Group) = GroupService.createGroup(Group)
+    fun save(@RequestBody Group: Group) = GroupService.save(Group)
 
     @PutMapping("/{id}")
-    fun updateGroup(@PathVariable id: Int, @RequestBody Group: Group) = GroupService.updateGroup(id,Group)
+    fun updateById(@PathVariable id: Int, @RequestBody Group: Group) = GroupService.updateById(id,Group)
 
     @DeleteMapping("/{id}")
-    fun deleteGroup(@PathVariable id: Int) = GroupService.deleteGroup(id)
+    fun deleteById(@PathVariable id: Int) = GroupService.deleteById(id)
 }

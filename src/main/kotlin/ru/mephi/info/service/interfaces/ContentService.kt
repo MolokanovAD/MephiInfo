@@ -7,15 +7,15 @@ import ru.mephi.info.model.Content
 import ru.mephi.info.model.Tag
 
 interface ContentService {
-    fun getContentById(id: Int): Content
+    fun findById(id: Int): Content
 
-    //fun getContentsByTags(tags: Set<Tag>, pageIndex: Int) : List<Content>
+    fun findByTagsId(tagId: Int): List<Content>
 
-    fun findContentByTagsId(tagId: Int): List<Content>
+    fun findByTagsIdIsIn(tagsId: Set<Int>,pageable: Pageable): List<Content>
 
-    fun createContent(content: Content)
+    fun save(content: Content)
 
-    fun updateContent(id: Int, content: Content)
+    fun updateById(id: Int, content: Content)
 
-    fun deleteContent(id: Int)
+    fun deleteById(id: Int)
 }

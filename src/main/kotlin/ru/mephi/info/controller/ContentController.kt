@@ -1,5 +1,7 @@
 package ru.mephi.info.controller
 
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 import ru.mephi.info.model.Content
 import ru.mephi.info.model.Tag
@@ -14,17 +16,24 @@ class ContentController(
     //fun getPage(@RequestBody tags: Set<Tag>, @RequestParam("page") pageIndex: Int):List<Content> = contentService.getContentsByTags(tags, pageIndex)
 
     @GetMapping("/{id}")
-    fun getById(@PathVariable id:Int): Content = contentService.getContentById(id)
+    fun findById(@PathVariable id:Int): Content = contentService.findById(id)
 
     @GetMapping("/by_tag/{id}")
-    fun findContentsByTagsId(@PathVariable id: Int) = contentService.findContentByTagsId(id)
+    fun findByTagsId(@PathVariable id: Int) = contentService.findByTagsId(id)
+
+    @GetMapping("/by_tags")
+    fun findByTagsIdIsIn(
+        @RequestBody ids: Set<Int>,
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "2") size: Int
+    ) = contentService.findByTagsIdIsIn(ids,PageRequest.of(page,size))
 
     @PostMapping
-    fun create(@RequestBody content: Content) = contentService.createContent(content)
+    fun save(@RequestBody content: Content) = contentService.save(content)
 
     @PutMapping("/{id}")
-    fun update(@PathVariable id: Int, @RequestBody Content: Content) = contentService.updateContent(id,Content)
+    fun updateById(@PathVariable id: Int, @RequestBody Content: Content) = contentService.updateById(id,Content)
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: Int) = contentService.deleteContent(id)
+    fun deleteById(@PathVariable id: Int) = contentService.deleteById(id)
 }

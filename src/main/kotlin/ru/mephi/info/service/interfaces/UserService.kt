@@ -4,17 +4,17 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import ru.mephi.info.model.User
 
 interface UserService : UserDetailsService {
-    fun getUser(id: Int): User
+    fun findById(id: Int): User
 
-    fun findByEmail(email: String) : User?
+    fun findByEmail(email: String) : User
 
     fun findByLogin(login: String) : User
 
-    fun getAllUsers() : List<User>
+    fun findAll() : List<User>
 
-    fun createUser(user: User)
+    fun save(user: User)
 
-    fun updateUser(id: Int, user: User)
+    fun updateById(id: Int, user: User)
 
-    fun deleteUser(id: Int)
+    fun deleteById(id: Int)
 }

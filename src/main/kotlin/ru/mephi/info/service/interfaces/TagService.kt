@@ -3,13 +3,13 @@ package ru.mephi.info.service.interfaces
 import ru.mephi.info.model.Tag
 
 interface TagService {
-    fun getTag(id: Int): Tag
+    fun findById(id: Int): Tag
 
-    fun getAllTags() : List<Tag>
+    fun findAll() : List<Tag>
 
-    fun createTag(tag: Tag)
+    fun save(tag: Tag)
 
-    fun updateTag(id: Int, tag: Tag)
+    fun updateById(id: Int, tag: Tag)
 
-    fun deleteTag(id: Int)
+    fun deleteById(id: Int)
 }

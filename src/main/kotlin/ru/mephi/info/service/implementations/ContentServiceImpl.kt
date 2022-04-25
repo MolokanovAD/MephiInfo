@@ -1,6 +1,7 @@
 package ru.mephi.info.service.implementations
 
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import ru.mephi.info.repository.ContentDao
 import ru.mephi.info.model.Content
@@ -11,18 +12,20 @@ import ru.mephi.info.service.interfaces.ContentService
 class ContentServiceImpl(
     private val contentDao: ContentDao
 ): ContentService {
-    override fun getContentById(id: Int): Content = contentDao.findById(id).orElseThrow()
+    override fun findById(id: Int): Content = contentDao.findById(id).orElseThrow()
 
-    override fun findContentByTagsId(tagId: Int): List<Content> = contentDao.findContentsByTagsId(tagId)
+    override fun findByTagsId(tagId: Int): List<Content> = contentDao.findContentsByTagsId(tagId)
+
+    override fun findByTagsIdIsIn(tagsId: Set<Int>,pageable: Pageable): List<Content> = contentDao.findByTagsIdIsIn(tagsId,pageable)
 
     //override fun getContentsByTags(tags: Set<Tag>, pageIndex: Int): List<Content> = contentDao.findContentByTagsContains(tags, PageRequest.of(pageIndex, 5))
 
-    override fun createContent(content: Content) {
+    override fun save(content: Content) {
         val newContent = Content(content.id,content.type,content.date,content.text,content.title,content.author,content.tags)
         contentDao.save(newContent)
     }
 
-    override fun updateContent(id: Int, content: Content) {
+    override fun updateById(id: Int, content: Content) {
         contentDao.findById(id).ifPresent {
             val updatedContent = it.copy(
                 type = content.type,
@@ -35,6 +38,6 @@ class ContentServiceImpl(
         }
     }
 
-    override fun deleteContent(id: Int) = contentDao.deleteById(id)
+    override fun deleteById(id: Int) = contentDao.deleteById(id)
 
 }

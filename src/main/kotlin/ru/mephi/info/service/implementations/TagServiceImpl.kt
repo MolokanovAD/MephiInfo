@@ -9,16 +9,16 @@ import ru.mephi.info.service.interfaces.TagService
 class TagServiceImpl(
     private val tagDao: TagDao
 ): TagService {
-    override fun getTag(id: Int): Tag = tagDao.findById(id).orElseThrow()
+    override fun findById(id: Int): Tag = tagDao.findById(id).orElseThrow()
 
-    override fun getAllTags(): List<Tag> = tagDao.findAll().toList()
+    override fun findAll(): List<Tag> = tagDao.findAll().toList()
 
-    override fun createTag(tag: Tag) {
+    override fun save(tag: Tag) {
         val newTag = Tag(tag.id,tag.name)
         tagDao.save(newTag)
     }
 
-    override fun updateTag(id: Int, tag: Tag) {
+    override fun updateById(id: Int, tag: Tag) {
         tagDao.findById(id).ifPresent{
             val updatedTag = it.copy(
                 name = tag.name
@@ -27,5 +27,5 @@ class TagServiceImpl(
         }
     }
 
-    override fun deleteTag(id: Int) = tagDao.deleteById(id)
+    override fun deleteById(id: Int) = tagDao.deleteById(id)
 }

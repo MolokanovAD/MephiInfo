@@ -9,16 +9,16 @@ import ru.mephi.info.service.interfaces.GroupService
 class GroupServiceImpl(
     private val groupDao: GroupDao
 ): GroupService {
-    override fun getGroup(id: Int): Group = groupDao.findById(id).orElseThrow()
+    override fun findById(id: Int): Group = groupDao.findById(id).orElseThrow()
 
-    override fun getAllGroups(): List<Group> = groupDao.findAll().toList()
+    override fun findAll(): List<Group> = groupDao.findAll().toList()
 
-    override fun createGroup(group: Group) {
+    override fun save(group: Group) {
         val newGroup = Group(group.id,group.name)
         groupDao.save(newGroup)
     }
 
-    override fun updateGroup(id: Int, group: Group) {
+    override fun updateById(id: Int, group: Group) {
         groupDao.findById(id).ifPresent {
             val updatedGroup = it.copy(
                 name = group.name
@@ -27,6 +27,6 @@ class GroupServiceImpl(
         }
     }
 
-    override fun deleteGroup(id: Int) = groupDao.deleteById(id)
+    override fun deleteById(id: Int) = groupDao.deleteById(id)
 
 }

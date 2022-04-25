@@ -10,17 +10,17 @@ class UserController(
     private val userService: UserService
 ) {
     @GetMapping
-    fun getAllUsers():List<User> = userService.getAllUsers()
+    fun findAll():List<User> = userService.findAll()
 
     @GetMapping("/{id}")
-    fun getUser(@PathVariable id:Int):User = userService.getUser(id)
+    fun findById(@PathVariable id:Int):User = userService.findById(id)
 
     @PostMapping
-    fun createUser(@RequestBody user: User) = userService.createUser(user)
+    fun save(@RequestBody user: User) = userService.save(user)
 
     @PutMapping("/{id}")
-    fun updateUser(@PathVariable id: Int, @RequestBody user: User) = userService.updateUser(id,user)
+    fun updateById(@PathVariable id: Int, @RequestBody user: User) = userService.updateById(id,user)
 
     @DeleteMapping("/{id}")
-    fun deleteUser(@PathVariable id: Int) = userService.deleteUser(id)
+    fun deleteById(@PathVariable id: Int) = userService.deleteById(id)
 }

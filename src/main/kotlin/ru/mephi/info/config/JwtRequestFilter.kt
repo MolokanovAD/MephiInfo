@@ -21,19 +21,12 @@ class JwtRequestFilter(
     private val jwtUserDetailsService: UserService,
     private val jwtTokenUtil: JwtTokenUtil
 ) : OncePerRequestFilter() {
-//    @Autowired
-//    private val jwtUserDetailsService: UserService? = null
-//
-//    @Autowired
-//    private val jwtTokenUtil: JwtTokenUtil? = null
 
     @Throws(ServletException::class, IOException::class)
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
         val requestTokenHeader = request.getHeader("Authorization")
         var username: String? = null
         var jwtToken: String? = null
-        // JWT Token is in the form "Bearer token". Remove Bearer word and get
-        // only the Token
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7)
             try {

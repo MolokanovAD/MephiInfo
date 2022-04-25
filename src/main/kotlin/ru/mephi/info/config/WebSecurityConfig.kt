@@ -24,22 +24,10 @@ class WebSecurityConfig(
     private val jwtUserDetailsService: UserDetailsService,
     private val jwtRequestFilter: JwtRequestFilter
 ) : WebSecurityConfigurerAdapter() {
-//    @Autowired
-//    private val jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint? = null
-//
-//    @Autowired
-//    private val jwtUserDetailsService: UserDetailsService? = null
-//
-//    @Autowired
-//    private val jwtRequestFilter: JwtRequestFilter? = null
     @Autowired
     @Throws(Exception::class)
     fun configureGlobal(auth: AuthenticationManagerBuilder) {
-        // configure AuthenticationManager so that it knows from where to load
-        // user for matching credentials
-        // Use BCryptPasswordEncoder
         auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder())
-        //auth.userDetailsService(jwtUserDetailsService).passwordEncoder(BCryptPasswordEncoder())
     }
     companion object {
         @Bean
@@ -54,7 +42,6 @@ class WebSecurityConfig(
 
     @Throws(Exception::class)
     override fun configure(httpSecurity: HttpSecurity) {
-        // We don't need CSRF for this example
         httpSecurity.csrf().disable()
             .authorizeRequests()
             .antMatchers("/login","/register")
@@ -63,8 +50,7 @@ class WebSecurityConfig(
             .authenticated().and().exceptionHandling()
             .authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
-        // Add a filter to validate the tokens with every request
+        
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter::class.java)
     }
 }

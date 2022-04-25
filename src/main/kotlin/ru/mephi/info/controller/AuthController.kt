@@ -38,8 +38,8 @@ class JwtAuthenticationController(
 
     @PostMapping("/register")
     fun saveUser(@RequestBody user: RegisterDto): ResponseEntity<*>? {
-        val user = User(user.login,user.email,user.password)
-        userDetailsService.createUser(user)
+        val user = User(0,user.email,user.password,user.login)
+        userDetailsService.save(user)
         return ResponseEntity.ok("Success")
     }
 
