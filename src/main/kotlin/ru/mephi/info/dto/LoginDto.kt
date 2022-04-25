@@ -1,6 +1,6 @@
 package ru.mephi.info.dto
 
 data class LoginDto(
-    val email: String = "",
+    val login: String = "",
     val password: String = ""
 )

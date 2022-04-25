@@ -14,48 +14,53 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import ru.mephi.info.service.interfaces.UserService
 
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-class WebSecurityConfig : WebSecurityConfigurerAdapter() {
-    @Autowired
-    private lateinit var jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint
-
+class WebSecurityConfig(
+    private val jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint,
+    private val jwtUserDetailsService: UserDetailsService,
+    private val jwtRequestFilter: JwtRequestFilter
+) : WebSecurityConfigurerAdapter() {
 //    @Autowired
-//    private lateinit var jwtUserDetailsService: UserService
-
+//    private val jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint? = null
+//
+//    @Autowired
+//    private val jwtUserDetailsService: UserDetailsService? = null
+//
+//    @Autowired
+//    private val jwtRequestFilter: JwtRequestFilter? = null
     @Autowired
-    private lateinit var jwtRequestFilter: JwtRequestFilter
-    @Autowired
+    @Throws(Exception::class)
     fun configureGlobal(auth: AuthenticationManagerBuilder) {
         // configure AuthenticationManager so that it knows from where to load
         // user for matching credentials
         // Use BCryptPasswordEncoder
-        //auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder())
+        auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder())
+        //auth.userDetailsService(jwtUserDetailsService).passwordEncoder(BCryptPasswordEncoder())
+    }
+    companion object {
+        @Bean
+        fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
     }
 
     @Bean
-    fun passwordEncoder(): PasswordEncoder {
-        return BCryptPasswordEncoder()
+    @Throws(Exception::class)
+    override fun authenticationManagerBean(): AuthenticationManager {
+        return super.authenticationManagerBean()
     }
 
-//    @Bean
-//    override fun authenticationManagerBean(): AuthenticationManager {
-//        return super.authenticationManagerBean()
-//    }
-
+    @Throws(Exception::class)
     override fun configure(httpSecurity: HttpSecurity) {
         // We don't need CSRF for this example
-        httpSecurity.csrf().disable() // dont authenticate this particular request
-            .authorizeRequests().antMatchers("/login", "/register")
-            .permitAll() // all other requests need to be authenticated
+        httpSecurity.csrf().disable()
+            .authorizeRequests()
+            .antMatchers("/login","/register")
+            .permitAll()
             .anyRequest()
-            .authenticated()
-            .and()
-            .exceptionHandling() // make sure we use stateless session; session won't be used to store user's state.
+            .authenticated().and().exceptionHandling()
             .authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 

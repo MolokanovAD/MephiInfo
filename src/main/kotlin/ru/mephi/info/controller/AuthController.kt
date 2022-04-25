@@ -1,74 +1,56 @@
 package ru.mephi.info.controller
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
-import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.BadCredentialsException
+import org.springframework.security.authentication.DisabledException
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.web.bind.annotation.*
 import ru.mephi.info.config.JwtTokenUtil
-import ru.mephi.info.dto.JwtToken
 import ru.mephi.info.dto.LoginDto
 import ru.mephi.info.dto.RegisterDto
 import ru.mephi.info.model.User
 import ru.mephi.info.service.interfaces.UserService
-import javax.servlet.http.HttpServletResponse
-
-
 
 
 @RestController
-//@RequestMapping("api")
-class AuthController(private val userService: UserService, private val jwtTokenUtil: JwtTokenUtil) {
-    @Autowired
-    private lateinit var passwordEncoder: PasswordEncoder
+@CrossOrigin
+class JwtAuthenticationController(
+    private val authenticationManager: AuthenticationManager,
+    private val jwtTokenUtil: JwtTokenUtil,
+    private val userDetailsService: UserService,
+) {
+//    @Autowired
+//    private val authenticationManager: AuthenticationManager? = null
+//
+//    @Autowired
+//    private val jwtTokenUtil: JwtTokenUtil? = null
+//
+//    @Autowired
+//    private val userDetailsService: UserService? = null
+    @PostMapping("/login")
+    fun createAuthenticationToken(@RequestBody body: LoginDto): ResponseEntity<*> {
+        authenticate(body.login, body.password)
+        val userDetails = userDetailsService.loadUserByUsername(body.login)
+        val token = jwtTokenUtil.generateToken(userDetails)
+        return ResponseEntity.ok<Any>(token)
+    }
 
-    @PostMapping("register")
-    fun register(@RequestBody body: RegisterDto): ResponseEntity<Any> {
-        val pass = passwordEncoder.encode(body.password)
-        println("PASS $pass")
-        val user = User(body.login,body.email,pass)
-        println("aftr ${user.password}")
-        userService.createUser(user)
+    @PostMapping("/register")
+    fun saveUser(@RequestBody user: RegisterDto): ResponseEntity<*>? {
+        val user = User(user.login,user.email,user.password)
+        userDetailsService.createUser(user)
         return ResponseEntity.ok("Success")
     }
 
-    @PostMapping("login")
-    fun login(@RequestBody body: LoginDto, response: HttpServletResponse): ResponseEntity<Any> {
-        val user = userService.findByEmail(body.email)
-            ?: return ResponseEntity.badRequest().body("user not found!")
-        println("From BD ${user.password}")
-        println("Request body ${body.password}")
-        if (passwordEncoder.matches(body.password,user.password)) {
-            return ResponseEntity.badRequest().body("invalid password!")
+    @Throws(Exception::class)
+    private fun authenticate(username: String, password: String) {
+        try {
+            authenticationManager.authenticate(UsernamePasswordAuthenticationToken(username, password))
+        } catch (e: DisabledException) {
+            throw Exception("USER_DISABLED", e)
+        } catch (e: BadCredentialsException) {
+            throw Exception("INVALID_CREDENTIALS", e)
         }
-
-        //val issuer = user.id.toString()
-        val token = jwtTokenUtil.generateToken(user);
-
-        return ResponseEntity.ok(JwtToken(token))
     }
-
-//    @GetMapping("user")
-//    fun user(@CookieValue("jwt") jwt: String?): ResponseEntity<Any> {
-//        try {
-//            if (jwt == null) {
-//                return ResponseEntity.status(401).body("unauthenticated")
-//            }
-//
-//            val body = Jwts.parser().setSigningKey("secret").parseClaimsJws(jwt).body
-//
-//            return ResponseEntity.ok(this.userService.getUser(body.issuer.toInt()))
-//        } catch (e: Exception) {
-//            return ResponseEntity.status(401).body("unauthenticated")
-//        }
-//    }
-
-//    @PostMapping("logout")
-//    fun logout(response: HttpServletResponse): ResponseEntity<Any> {
-//        val cookie = Cookie("jwt", "")
-//        cookie.maxAge = 0
-//
-//        response.addCookie(cookie)
-//
-//        return ResponseEntity.ok("success")
-//    }
 }

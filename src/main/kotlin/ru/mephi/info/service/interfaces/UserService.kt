@@ -1,8 +1,9 @@
 package ru.mephi.info.service.interfaces
 
+import org.springframework.security.core.userdetails.UserDetailsService
 import ru.mephi.info.model.User
 
-interface UserService {
+interface UserService : UserDetailsService {
     fun getUser(id: Int): User
 
     fun findByEmail(email: String) : User?
