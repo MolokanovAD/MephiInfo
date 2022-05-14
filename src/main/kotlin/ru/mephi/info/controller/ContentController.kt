@@ -1,10 +1,8 @@
 package ru.mephi.info.controller
 
 import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 import ru.mephi.info.model.Content
-import ru.mephi.info.model.Tag
 import ru.mephi.info.service.interfaces.ContentService
 
 @RestController
@@ -25,7 +23,7 @@ class ContentController(
     fun findByTagsIdIsIn(
         @RequestBody ids: Set<Int>,
         @RequestParam(defaultValue = "0") page: Int,
-        @RequestParam(defaultValue = "2") size: Int
+        @RequestParam(defaultValue = "10") size: Int
     ) = contentService.findByTagsIdIsIn(ids,PageRequest.of(page,size))
 
     @PostMapping

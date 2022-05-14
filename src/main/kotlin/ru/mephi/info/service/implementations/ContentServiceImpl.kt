@@ -1,11 +1,9 @@
 package ru.mephi.info.service.implementations
 
-import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import ru.mephi.info.repository.ContentDao
 import ru.mephi.info.model.Content
-import ru.mephi.info.model.Tag
 import ru.mephi.info.service.interfaces.ContentService
 
 @Service
@@ -16,7 +14,7 @@ class ContentServiceImpl(
 
     override fun findByTagsId(tagId: Int): List<Content> = contentDao.findContentsByTagsId(tagId)
 
-    override fun findByTagsIdIsIn(tagsId: Set<Int>,pageable: Pageable): List<Content> = contentDao.findByTagsIdIsIn(tagsId,pageable)
+    override fun findByTagsIdIsIn(tagsId: Set<Int>,pageable: Pageable): Set<Content> = contentDao.findByTagsIdIsIn(tagsId,pageable)
 
     //override fun getContentsByTags(tags: Set<Tag>, pageIndex: Int): List<Content> = contentDao.findContentByTagsContains(tags, PageRequest.of(pageIndex, 5))
 
