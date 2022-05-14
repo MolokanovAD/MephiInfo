@@ -7,5 +7,5 @@ import ru.mephi.info.model.Content
 interface ContentDao: CrudRepository<Content, Int>{
     fun findContentsByTagsId(tags_id: Int): List<Content>
 
-    fun findByTagsIdIsIn(tagsId: Set<Int>,pageable: Pageable): Set<Content>
+    fun findByTagsIdIsIn(tagsId: Set<Int>,pageable: Pageable): List<Content>
 }
