@@ -9,7 +9,7 @@ data class Tag(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int,
 
-    @Column(name = "name")
+    @Column(name = "name",unique = true)
     val name: String,
 
 //    @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST, CascadeType.MERGE],mappedBy = "tags")

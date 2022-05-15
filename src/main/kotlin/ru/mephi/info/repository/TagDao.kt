@@ -4,5 +4,5 @@ import org.springframework.data.repository.CrudRepository
 import ru.mephi.info.model.Tag
 
 interface TagDao: CrudRepository<Tag, Int>{
-    fun findByName(name: String): Tag
+    fun findByName(name: String): Tag?
 }

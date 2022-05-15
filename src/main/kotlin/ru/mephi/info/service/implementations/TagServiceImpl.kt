@@ -11,7 +11,7 @@ class TagServiceImpl(
 ): TagService {
     override fun findById(id: Int): Tag = tagDao.findById(id).orElseThrow()
 
-    override fun findByName(name: String): Tag = tagDao.findByName(name)
+    override fun findByName(name: String): Tag? = tagDao.findByName(name)
 
     override fun findAll(): List<Tag> = tagDao.findAll().toList()
 

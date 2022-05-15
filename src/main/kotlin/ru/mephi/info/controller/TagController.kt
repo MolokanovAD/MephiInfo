@@ -12,8 +12,8 @@ class TagController(
     @GetMapping
     fun findAll():List<Tag> = tagService.findAll()
 
-    @GetMapping("/{name}")
-    fun findByName(@PathVariable name: String): Tag = tagService.findByName(name)
+    @GetMapping("/by_name/{name}")
+    fun findByName(@PathVariable name: String): Tag? = tagService.findByName(name)
 
     @GetMapping("/{id}")
     fun findById(@PathVariable id:Int): Tag = tagService.findById(id)

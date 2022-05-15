@@ -4,11 +4,14 @@ import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import ru.mephi.info.repository.ContentDao
 import ru.mephi.info.model.Content
+import ru.mephi.info.model.Tag
+import ru.mephi.info.repository.TagDao
 import ru.mephi.info.service.interfaces.ContentService
 
 @Service
 class ContentServiceImpl(
-    private val contentDao: ContentDao
+    private val contentDao: ContentDao,
+    private val tagDao: TagDao
 ): ContentService {
     override fun findById(id: Int): Content = contentDao.findById(id).orElseThrow()
 
@@ -19,7 +22,11 @@ class ContentServiceImpl(
     //override fun getContentsByTags(tags: Set<Tag>, pageIndex: Int): List<Content> = contentDao.findContentByTagsContains(tags, PageRequest.of(pageIndex, 5))
 
     override fun save(content: Content) {
-        val newContent = Content(content.id,content.type,content.date,content.text,content.title,content.author,content.tags)
+        val tags: MutableSet<Tag> = mutableSetOf()
+        for(tag in content.tags) {
+            tags += tagDao.findByName(tag.name) ?: tag
+        }
+        val newContent = Content(content.id,content.type,content.date,content.text,content.title,content.author,tags)
         contentDao.save(newContent)
     }
 
