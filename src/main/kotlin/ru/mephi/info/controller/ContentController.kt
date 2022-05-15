@@ -20,11 +20,11 @@ class ContentController(
     fun findByTagsId(@PathVariable id: Int) = contentService.findByTagsId(id)
 
     @GetMapping("/by_tags")
-    fun findByTagsIdIsIn(
+    fun findByTagsIdIsInOrderByDateDesc(
         @RequestBody ids: Set<Int>,
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "10") size: Int
-    ) = contentService.findByTagsIdIsIn(ids,PageRequest.of(page,size))
+    ) = contentService.findByTagsIdIsInOrderByDateDesc(ids,PageRequest.of(page,size))
 
     @PostMapping
     fun save(@RequestBody content: Content) = contentService.save(content)

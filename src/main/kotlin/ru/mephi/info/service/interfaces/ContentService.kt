@@ -8,7 +8,7 @@ interface ContentService {
 
     fun findByTagsId(tagId: Int): List<Content>
 
-    fun findByTagsIdIsIn(tagsId: Set<Int>,pageable: Pageable): Set<Content>
+    fun findByTagsIdIsInOrderByDateDesc(tagsId: Set<Int>,pageable: Pageable): Set<Content>
 
     fun save(content: Content)
 

@@ -1,6 +1,8 @@
 package ru.mephi.info.model
 
-import com.fasterxml.jackson.annotation.JsonIgnore
+
+import org.hibernate.annotations.CreationTimestamp
+import java.sql.Timestamp
 import javax.persistence.*
 
 @Entity
@@ -15,7 +17,8 @@ data class Content(
     val type: Int,
 
     @Column(name = "date")
-    val date: String,
+    @CreationTimestamp
+    val date: Timestamp?,
 
     @Column(name = "text")
     val text: String,

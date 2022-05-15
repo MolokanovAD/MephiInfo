@@ -14,7 +14,7 @@ class ContentServiceImpl(
 
     override fun findByTagsId(tagId: Int): List<Content> = contentDao.findContentsByTagsId(tagId)
 
-    override fun findByTagsIdIsIn(tagsId: Set<Int>,pageable: Pageable): Set<Content> = contentDao.findByTagsIdIsIn(tagsId,pageable).toSet()
+    override fun findByTagsIdIsInOrderByDateDesc(tagsId: Set<Int>,pageable: Pageable): Set<Content> = contentDao.findByTagsIdIsInOrderByDateDesc(tagsId,pageable).toSet()
 
     //override fun getContentsByTags(tags: Set<Tag>, pageIndex: Int): List<Content> = contentDao.findContentByTagsContains(tags, PageRequest.of(pageIndex, 5))
 
