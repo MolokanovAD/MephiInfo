@@ -19,8 +19,6 @@ class ContentServiceImpl(
 
     override fun findByTagsIdIsInOrderByDateDesc(tagsId: Set<Int>,pageable: Pageable): Set<Content> = contentDao.findByTagsIdIsInOrderByDateDesc(tagsId,pageable).toSet()
 
-    //override fun getContentsByTags(tags: Set<Tag>, pageIndex: Int): List<Content> = contentDao.findContentByTagsContains(tags, PageRequest.of(pageIndex, 5))
-
     override fun save(content: Content) {
         val tags: MutableSet<Tag> = mutableSetOf()
         for(tag in content.tags) {

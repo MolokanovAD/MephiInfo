@@ -15,11 +15,11 @@ class UserController(
     @GetMapping("/{id}")
     fun findById(@PathVariable id:Int):User = userService.findById(id)
 
-    @PostMapping
-    fun save(@RequestBody user: User) = userService.save(user)
+//    @PostMapping
+//    fun save(@RequestBody user: User) = userService.save(user)
 
-    @PutMapping("/{id}")
-    fun updateById(@PathVariable id: Int, @RequestBody user: User) = userService.updateById(id,user)
+//    @PutMapping("/{id}")
+//    fun updateById(@PathVariable id: Int, @RequestBody user: User) = userService.updateById(id,user)
 
     @DeleteMapping("/{id}")
     fun deleteById(@PathVariable id: Int) = userService.deleteById(id)

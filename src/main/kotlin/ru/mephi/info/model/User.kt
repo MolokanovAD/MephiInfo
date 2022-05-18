@@ -1,4 +1,5 @@
 package ru.mephi.info.model
+import ru.mephi.info.config.JwtTokenUtil
 import javax.persistence.*
 
 
@@ -20,15 +21,6 @@ data class User(
     @Column(name = "login")
     val login: String,
 
-//
-//    @Column(name = "name")
-//    val name: String?,
-//
-//    @Column(name = "lastname")
-//    val lastname: String?,
-//
-//    @Column(name = "group_id")
-//    val groupId: String?,
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "favourite_tags",
@@ -37,5 +29,7 @@ data class User(
     )
     val fav_tags: Set<Tag> = emptySet()
 ) {
+
+    fun getLogin(token: String): String = JwtTokenUtil().getUsernameFromToken(token)
     fun favTagsIds() = fav_tags.map { it -> it.id }
 }
