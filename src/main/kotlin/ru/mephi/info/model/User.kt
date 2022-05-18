@@ -1,5 +1,4 @@
 package ru.mephi.info.model
-import ru.mephi.info.config.JwtTokenUtil
 import javax.persistence.*
 
 
@@ -29,7 +28,5 @@ data class User(
     )
     val fav_tags: Set<Tag> = emptySet()
 ) {
-
-    fun getLogin(token: String): String = JwtTokenUtil().getUsernameFromToken(token)
     fun favTagsIds() = fav_tags.map { it -> it.id }
 }

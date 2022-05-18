@@ -1,13 +1,15 @@
 package ru.mephi.info.controller
 
 import org.springframework.web.bind.annotation.*
+import ru.mephi.info.config.JwtTokenUtil
 import ru.mephi.info.service.interfaces.UserService
 import ru.mephi.info.model.User
 
 @RestController
 @RequestMapping("/users")
 class UserController(
-    private val userService: UserService
+    private val userService: UserService,
+    private val jwtTokenUtil: JwtTokenUtil
 ) {
     @GetMapping
     fun findAll():List<User> = userService.findAll()
@@ -15,6 +17,8 @@ class UserController(
     @GetMapping("/{id}")
     fun findById(@PathVariable id:Int):User = userService.findById(id)
 
+    @GetMapping("/name_by_token")
+    fun getLogin(@RequestBody token: String) = jwtTokenUtil.getUsernameFromToken(token)
 //    @PostMapping
 //    fun save(@RequestBody user: User) = userService.save(user)
 
