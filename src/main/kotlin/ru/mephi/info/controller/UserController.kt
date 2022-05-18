@@ -17,13 +17,14 @@ class UserController(
     @GetMapping("/{id}")
     fun findById(@PathVariable id:Int):User = userService.findById(id)
 
-    @GetMapping("/name_by_token")
-    fun getLogin(@RequestBody token: String) = jwtTokenUtil.getUsernameFromToken(token)
-//    @PostMapping
-//    fun save(@RequestBody user: User) = userService.save(user)
+    @GetMapping("/by_login")
+    fun findByLogin(@RequestBody login: String):User = userService.findByLogin(login)
 
-//    @PutMapping("/{id}")
-//    fun updateById(@PathVariable id: Int, @RequestBody user: User) = userService.updateById(id,user)
+    @GetMapping("/by_token")
+    fun findByToken(@RequestBody token: String):User = userService.findByLogin(jwtTokenUtil.getUsernameFromToken(token))
+
+    @PutMapping("/{id}")
+    fun updateById(@PathVariable id: Int, @RequestBody user: User) = userService.updateById(id,user)
 
     @DeleteMapping("/{id}")
     fun deleteById(@PathVariable id: Int) = userService.deleteById(id)
